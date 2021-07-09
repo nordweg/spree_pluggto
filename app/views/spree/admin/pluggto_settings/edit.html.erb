@@ -1,0 +1,39 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:pluggto_settings) %>
+<% end %>
+
+<%= form_for @pluggto_settings, url: admin_pluggto_settings_path do |f| %>
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <div class="form-group" data-hook="admin_general_setting_input_name">
+        <%= f.label :client_id, "client_id" %>
+        <%= f.text_field :client_id, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <div class="form-group" data-hook="admin_general_setting_input_seo_title">
+        <%= f.label :client_secret, 'client_secret' %>
+        <%= f.text_field :client_secret, class: 'form-control'  %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <div class="form-group" data-hook="admin_general_setting_input_name">
+        <%= f.label :username %>
+        <%= f.text_field :username, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <div class="form-group" data-hook="admin_general_setting_input_seo_title">
+        <%= f.label :password %>
+        <%= f.text_field :password, class: 'form-control'  %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions" data-hook="buttons">
+    <%= render partial: 'spree/admin/shared/edit_resource_links', locals: {collection_url: edit_admin_pluggto_settings_path} %>
+  </div>
+<% end %>
