@@ -13,5 +13,5 @@ Spree::Core::Engine.routes.draw do
     end
   end
 
-  post "pluggto/api/pluggto/notifications", to: 'api/v1/pluggto#notifications'
+  post "/pluggto/api/pluggto/notifications", to: 'api/v1/pluggto#notifications'
 end
