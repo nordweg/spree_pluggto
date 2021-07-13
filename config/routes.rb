@@ -6,8 +6,10 @@ Spree::Core::Engine.routes.draw do
   end
 
   namespace :api do
-    resource :pluggto do
-      post :notifications
+    namespace :v1 do
+      resource :pluggto do
+        post :notifications
+      end
     end
   end
 end

@@ -49,6 +49,7 @@ module SpreePluggto
               "quantity": variant.total_on_hand.finite? ? variant.total_on_hand : 99,
               "special_price": variant.product.on_sale? ? variant.product.sale_price : nil,
               "price": variant.price,
+              "ean_not_mandatory": true,
               "attributes": variant.option_values.map { |option_value|
                 {
                   "code": option_value.option_type.name,
