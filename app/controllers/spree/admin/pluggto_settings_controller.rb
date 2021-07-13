@@ -15,6 +15,12 @@ module Spree
         redirect_to edit_admin_pluggto_settings_path
       end
 
+      def upload_all_products
+        flash[:success] = Spree.t(:pluggto_products_being_uploaded)
+        ::SpreePluggto::UpsertAllProductsJob.perform_later
+        redirect_to edit_admin_pluggto_settings_path
+      end
+
       private
 
       def set_pluggto_settings

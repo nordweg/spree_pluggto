@@ -1,7 +1,8 @@
 # Sample localization file for English. Add more files in this directory for other locales.
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
-en:
+pt-BR:
   hello: "Hello world"
   spree:
-    upload_all_products_to_pluggto:
+    upload_all_products_to_pluggto: Enviar todos produtos para o Plugg.to
+    pluggto_products_being_uploaded: Os produtos estão sendo enviados para o Plugg.to

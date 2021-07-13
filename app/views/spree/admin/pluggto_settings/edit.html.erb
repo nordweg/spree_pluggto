@@ -37,3 +37,17 @@
     <%= render partial: 'spree/admin/shared/edit_resource_links', locals: {collection_url: edit_admin_pluggto_settings_path} %>
   </div>
 <% end %>
+
+
+<div class="row" style="margin-top: 40px">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="panel-title"><%= Spree.t(:products) %></h1>
+      </div>
+      <div class="panel-body">
+        <%= link_to Spree.t(:upload_all_products_to_pluggto), upload_all_products_admin_pluggto_settings_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+</div>

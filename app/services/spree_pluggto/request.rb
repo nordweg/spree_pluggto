@@ -7,12 +7,12 @@ module SpreePluggto
     end
 
     def get(path, body = {})
-      response = request.post(path, body)
+      response = request.get(path, body)
       response.success? ? response.body : raise_error(response)
     end
 
     def put(path, body = {})
-      response = request.post(path, body)
+      response = request.put(path, body)
       response.success? ? response.body : raise_error(response)
     end
 
