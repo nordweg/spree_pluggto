@@ -10,7 +10,7 @@ module SpreePluggto
       def find(product)
         SpreePluggto::Request.new.get("/skus/#{product.sku}")
       end
-      
+
       private
 
       def params(product)
@@ -25,7 +25,7 @@ module SpreePluggto
           "warranty_message": product.lifetime_warranty? ? "Garantia vitalícia" : "",
           "link": "#{::Rails.application.routes.url_helpers.spree_url}products/#{product.slug}",
           "categories": product.taxons.map { |taxon| {"name": taxon.name } },
-          "handling_time": Spree::Config.try(:handling_time),
+          "handling_time": ::Spree::Config.try(:handling_time),
           "ean_not_mandatory": true,
           "dimension": {
             "length": product.depth,
@@ -36,8 +36,8 @@ module SpreePluggto
           "photos": product.images.map { |image|
             {
               "url": image.attachment.url(:big),
-              "name": name,
-              "title": name,
+              "name": product.name,
+              "title": product.name,
               "order": image.position,
               "external": image.attachment.url(:big)
             }

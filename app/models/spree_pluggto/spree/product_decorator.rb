@@ -9,7 +9,7 @@ module SpreePluggto
       private
 
       def upsert_pluggto_product
-        ::SpreePluggto::UpsertProductJob.perform_later(pluggto_product)
+        ::SpreePluggto::UpsertProductJob.perform_later(self.id)
       end
 
     end

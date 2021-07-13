@@ -12,12 +12,13 @@ module Spree
 
       def update
         @pluggto_settings.update(pluggto_settings_params)
+        flash[:success] = Spree.t(:pluggto_settings_updated)
         redirect_to edit_admin_pluggto_settings_path
       end
 
       def upload_all_products
-        flash[:success] = Spree.t(:pluggto_products_being_uploaded)
         ::SpreePluggto::UpsertAllProductsJob.perform_later
+        flash[:success] = Spree.t(:pluggto_products_being_uploaded)
         redirect_to edit_admin_pluggto_settings_path
       end
 

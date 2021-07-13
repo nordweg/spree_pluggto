@@ -6,3 +6,4 @@ pt-BR:
   spree:
     upload_all_products_to_pluggto: Enviar todos produtos para o Plugg.to
     pluggto_products_being_uploaded: Os produtos estão sendo enviados para o Plugg.to
+    pluggto_settings_updated: Configurações atualizadas
