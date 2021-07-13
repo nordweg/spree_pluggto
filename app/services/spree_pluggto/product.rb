@@ -57,7 +57,7 @@ module SpreePluggto
                   "value": { "code": option_value.name, "label": option_value.name }
                 }
               },
-              "photos": product.images.map { |image|
+              "photos": variant.images.map { |image|
                 {
                   "url": image.attachment.url(:big),
                   "name": variant.name,
