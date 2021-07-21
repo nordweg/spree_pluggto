@@ -4,14 +4,21 @@ module Spree
       class PluggtoController < Spree::Api::BaseController
         skip_before_action :authenticate_user
 
+        # request.body = {
+        #   "user": 129,
+        #   "id": "5b9169c309eacd415056aa3a",
+        # "changes": {
+        #   "status": true,
+        #   "stock": false,
+        #   "price": false
+        # },
+        #   "type": "products",
+        #   "action": "updated"
+        # }
+
         def notifications
-          puts "Received some data!"
-          puts "Request"
-          p request
-          puts "Request Body"
-          p request.body
-          puts "Request Body Read"
-          p request.body.read
+          SpreePluggto::NotificationHandler.new(request.body).call
+          render status: :ok
         end
       end
     end

@@ -1,4 +1,4 @@
-module SpreePluggto
+module SpreePluggto::Api
   class Oauth
     attr_accessor :settings
 

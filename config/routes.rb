@@ -5,13 +5,13 @@ Spree::Core::Engine.routes.draw do
     end
   end
 
-  namespace :api, defaults: {format: :json}  do
+  namespace :api do
     namespace :v1 do
-      namespace :pluggto do
+      namespace :pluggto, defaults: {format: :json} do
         post :notifications
       end
     end
   end
 
-  post "/pluggto/api/pluggto/notifications", to: 'api/v1/pluggto#notifications'
+  # post "/pluggto/api/pluggto/notifications", to: 'api/v1/pluggto#notifications'
 end

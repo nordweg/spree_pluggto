@@ -1,4 +1,4 @@
-module SpreePluggto
+module SpreePluggto::Api
   class Request
     attr_reader :access_token
 

@@ -1,14 +1,15 @@
-module SpreePluggto
+module SpreePluggto::Api
   class Product
     class << self
 
-      # UPSERT => Updates the record if it exists, inserts if it is new
-      def upsert(product)
-        SpreePluggto::Request.new.put("/skus/#{product.sku}", params(product).to_json)
+      # UPSERT => Updates the record if it exists, inserts if it is a new record
+      def upsert(spree_product)
+        response = SpreePluggto::Request.new.put("/skus/#{spree_product.sku}", params(spree_product).to_json)
+        spree_product.update(pluggto_id: response.dig("Product","id"))
       end
 
-      def find(product)
-        SpreePluggto::Request.new.get("/skus/#{product.sku}")
+      def find(pluggto_id)
+        SpreePluggto::Request.new.get("/products/#{pluggto_id}")
       end
 
       private
