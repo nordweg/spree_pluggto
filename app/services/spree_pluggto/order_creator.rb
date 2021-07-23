@@ -8,7 +8,7 @@ module SpreePluggto
     end
 
     def call
-      pluggto_order = SpreePluggto::Order.find(pluggto_id)
+      pluggto_order = SpreePluggto::Api::Order.find(pluggto_id)
 
       # Create the order on Spree
       spree_order = Spree::Order.create(
@@ -20,11 +20,11 @@ module SpreePluggto
       )
 
       # Add line items
-      pluggto_order["items"].each do |plugg_item|
+      pluggto_order["items"].each do |pluggto_item|
         spree_order.line_items.new(
-          variant: Spree::Variant.find_by(sku: "NW053.IC"),
-          quantity: plugg_item["quantity"],
-          price: plugg_item["price"]
+          variant: Spree::Variant.find_by(sku: pluggto_item["sku"]),
+          quantity: pluggto_item["quantity"],
+          price: pluggto_item["price"]
         )
       end
 
