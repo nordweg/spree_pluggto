@@ -1,6 +1,6 @@
 # Gets updates from an order on Pluggto and updates the order on Spree
 module SpreePluggto
-  class OrderUpdater
+  class UpdateSpreeOrder
     attr_reader   :pluggto_order
     attr_accessor :spree_order
 

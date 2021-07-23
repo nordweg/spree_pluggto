@@ -2,13 +2,13 @@ module SpreePluggto::Api
   class Order
     class << self
 
-      def update(spree_order)
-        response = SpreePluggto::Api::Request.new.put("/orders/#{spree_order.pluggto_id}", params(spree_order).to_json)
-      end
-
       def find(pluggto_id)
         response = SpreePluggto::Api::Request.new.get("/orders/#{pluggto_id}")
         response["Order"]
+      end
+
+      def update(spree_order)
+        response = SpreePluggto::Api::Request.new.put("/orders/#{spree_order.pluggto_id}", params(spree_order).to_json)
       end
 
       private
@@ -32,6 +32,13 @@ module SpreePluggto::Api
 
       def params(spree_order)
         {
+          "status": pluggto_status(spree_order),
+          "subtotal": spree_order.amount,
+          "total": spree_order.total,
+          "total_paid": spree_order.payment_total.to_s,
+          "shipping": spree_order.shipment_total,
+          "discount": spree_order.adjustment_total,
+
           "receiver_email": spree_order.email,
           "receiver_name": spree_order.ship_address.firstname,
           "receiver_lastname": spree_order.ship_address.lastname,
@@ -58,13 +65,6 @@ module SpreePluggto::Api
           "payer_phone": phone_without_area(spree_order.bill_address.phone),
           "payer_phone_area": phone_area(spree_order.bill_address.phone),
           "payer_cpf": spree_order.cpf,
-
-          "total_paid": spree_order.payment_total.to_s,
-          "shipping": spree_order.shipment_total,
-          "subtotal": spree_order.amount,
-          "discount": spree_order.adjustment_total,
-          "total": spree_order.total,
-          "status": pluggto_status(spree_order),
 
           "shipments": spree_order.shipments.map { |shipment|
             {

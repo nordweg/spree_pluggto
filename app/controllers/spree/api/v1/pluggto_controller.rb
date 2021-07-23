@@ -9,13 +9,19 @@ module Spree
         #
         # Example:
         # { "user" : 129, "id" : "5b9169c309eacd415056aa3a", "changes" : { "status" : false, "stock" : false, "price" : false }, "type" : "products", "action" : "updated" }
-        # Example notification body received from
 
         def notifications
-          puts "Notification received from PluggTo:"
-          p params[:pluggto]
-          SpreePluggto::NotificationHandler.new(params[:pluggto]).call
+          puts "Notification received from PluggTo: #{notification_params}"
+          service_class = "spree_pluggto/#{type.singularize}_#{action}_job".camelize
+          puts "Service: #{service_class}"
+          service_class.constantize.perform_later(notification_params[:id])
           render head: :ok
+        end
+
+        private
+
+        def notification_params
+          params.require(:pluggto).permit!
         end
 
       end

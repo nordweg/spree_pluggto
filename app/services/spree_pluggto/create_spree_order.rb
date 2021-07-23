@@ -1,6 +1,6 @@
 # Creates on Spree e new order after it was created on Pluggto
 module SpreePluggto
-  class OrderCreator
+  class CreateSpreeOrder
     attr_reader :pluggto_id
 
     def initialize(pluggto_id)

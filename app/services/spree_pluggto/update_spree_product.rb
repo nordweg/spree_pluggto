@@ -1,6 +1,6 @@
 # Gets updates from a product on Pluggto and updates the product on Spree
 module SpreePluggto
-  class ProductUpdater
+  class UpdateSpreeProduct
     attr_reader   :pluggto_product
     attr_accessor :spree_product
 
