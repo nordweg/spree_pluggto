@@ -78,12 +78,13 @@ module SpreePluggto
           payment_method: Spree::PaymentMethod.find_by(type:"Spree::PaymentMethod::StoreCredit"), # Not ideal - we should define a specific payment method referring to PluggTo
           installments: pluggto_payment["payment_installments"],
           amount: pluggto_payment["payment_total"],
-          state: "complete"
+          state: "completed"
         )
       end
 
       # Complete the order
       spree_order.next
+      spree_order.update(state: 'complete')
     end
   end
 end

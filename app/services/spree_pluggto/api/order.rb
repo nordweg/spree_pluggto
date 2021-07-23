@@ -1,13 +1,13 @@
 module SpreePluggto::Api
-  class Product
+  class Order
     class << self
 
       def update(spree_order)
-        response = SpreePluggto::Request.new.put("/orders/#{spree_order.pluggto_id}", params(spree_order).to_json)
+        response = SpreePluggto::Api::Request.new.put("/orders/#{spree_order.pluggto_id}", params(spree_order).to_json)
       end
 
       def find(pluggto_id)
-        response = SpreePluggto::Request.new.get("/orders/#{pluggto_id}")
+        response = SpreePluggto::Api::Request.new.get("/orders/#{pluggto_id}")
         response["Order"]
       end
 

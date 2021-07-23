@@ -7,24 +7,20 @@ module SpreePluggto
       @resource_type = notification['type']
       @resource_id   = notification['id']
       @action        = notification['action']
-      @changes        = notification['changes']
+      @changes       = notification['changes']
     end
 
     def call
       case resource_type
       when "products"
-        SpreePluggto::ProductUpdater.call(notification_id) if action == 'updated' && important_changes?
+        SpreePluggto::ProductUpdater.new(resource_id).call if action == 'updated'
       when "orders"
-        SpreePluggto::OrderCreator.call(notification_id) if action == 'created'
-        SpreePluggto::OrderUpdater.call(notification_id) if action == 'updated'
+        SpreePluggto::OrderCreator.new(resource_id).call if action == 'created'
+        SpreePluggto::OrderUpdater.new(resource_id).call if action == 'updated'
       else
         fail Exception.new("Notification type unknown: #{notification_type}")
       end
     end
 
-    def important_changes?
-      return true if changes[:status]
-      return true if changes[:stock]
-    end
   end
 end
