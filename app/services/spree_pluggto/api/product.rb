@@ -5,7 +5,7 @@ module SpreePluggto::Api
       # UPSERT => Updates the record if it exists, inserts if it is a new record
       def upsert(spree_product)
         response = SpreePluggto::Api::Request.new.put("/skus/#{spree_product.sku}", params(spree_product).to_json)
-        spree_product.update(pluggto_id: response.dig("Product","id"))
+        spree_product.update_columns(pluggto_id: response.dig("Product","id"))
       end
 
       def find(pluggto_id)

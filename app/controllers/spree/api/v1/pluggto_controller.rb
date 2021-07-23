@@ -12,14 +12,12 @@ module Spree
         # Example notification body received from
 
         def notifications
-          notification = request.body.read
-          puts "Notification here:"
-          p notification
-          puts "Params"
-          p params
-          # SpreePluggto::NotificationHandler.new(notification).call
-          render status: :ok
+          puts "Notification received from PluggTo:"
+          p params[:pluggto]
+          SpreePluggto::NotificationHandler.new(params[:pluggto]).call
+          render head: :ok
         end
+
       end
     end
   end

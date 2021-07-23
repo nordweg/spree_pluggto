@@ -10,8 +10,8 @@ module SpreePluggto
     end
 
     def call
-      # pluggto_product = SpreePluggto::Product.find(pluggto_id)
-      # spree_product   = Spree::Product.find_by(pluggto_id: pluggto_id)
+      # Logic here to define what we want to update on Spree when PluggTo say a product was updated
+      # Only stock?
     end
   end
 end

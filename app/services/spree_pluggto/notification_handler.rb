@@ -1,13 +1,12 @@
 # Handles what should happen when we receive a notification from Pluggto
 module SpreePluggto
   class NotificationHandler
-    attr_reader :resource_type, :resource_id, :action, :changes
+    attr_reader :resource_type, :resource_id, :action
 
     def initialize(notification)
-      @resource_type = notification['type']
-      @resource_id   = notification['id']
-      @action        = notification['action']
-      @changes       = notification['changes']
+      @resource_type = notification[:type]
+      @resource_id   = notification[:id]
+      @action        = notification[:action]
     end
 
     def call
