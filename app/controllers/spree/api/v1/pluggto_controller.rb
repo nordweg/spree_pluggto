@@ -17,7 +17,7 @@ module Spree
           p notification
           puts "Params"
           p params
-          SpreePluggto::NotificationHandler.new(notification).call
+          # SpreePluggto::NotificationHandler.new(notification).call
           render status: :ok
         end
       end
