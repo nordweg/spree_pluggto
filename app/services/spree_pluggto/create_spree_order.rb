@@ -11,10 +11,10 @@ module SpreePluggto
       pluggto_order = SpreePluggto::Api::Order.find(pluggto_id)
 
       # Create the order on Spree
-      spree_order = Spree::Order.create(
+      spree_order = ::Spree::Order.create(
         channel: "pluggto",
         pluggto_id: pluggto_id,
-        user: Spree::User.find_by(email: pluggto_order["receiver_email"]),
+        user: ::Spree::User.find_by(email: pluggto_order["receiver_email"]),
         email: pluggto_order["receiver_email"],
         cpf: pluggto_order["receiver_cpf"] || pluggto_order["payer_cpf"],
       )
@@ -22,7 +22,7 @@ module SpreePluggto
       # Add line items
       pluggto_order["items"].each do |pluggto_item|
         spree_order.line_items.new(
-          variant: Spree::Variant.find_by(sku: pluggto_item["sku"]),
+          variant: ::Spree::Variant.find_by(sku: pluggto_item["sku"]),
           quantity: pluggto_item["quantity"],
           price: pluggto_item["price"]
         )
@@ -32,7 +32,7 @@ module SpreePluggto
       spree_order.next
 
       # Add ship_address
-      spree_order.ship_address = Spree::Address.new(
+      spree_order.ship_address = ::Spree::Address.new(
         firstname: pluggto_order["receiver_name"],
         lastname: pluggto_order["receiver_lastname"],
         address1: pluggto_order["receiver_address"],
@@ -43,13 +43,13 @@ module SpreePluggto
         zipcode: pluggto_order["receiver_zipcode"],
         phone: "(#{pluggto_order['receiver_phone_area']}) #{pluggto_order['receiver_phone']}",
         state_name: pluggto_order["receiver_state"],
-        state: Spree::State.find_by(abbr: pluggto_order["receiver_state"]),
+        state: ::Spree::State.find_by(abbr: pluggto_order["receiver_state"]),
         alternative_phone: "(#{pluggto_order['receiver_phone2_area']}) #{pluggto_order['receiver_phone2']}",
-        country: Spree::Country.find_by(iso: "BR")
+        country: ::Spree::Country.find_by(iso: "BR")
       )
 
       # Add bill_address
-      spree_order.bill_address = Spree::Address.new(
+      spree_order.bill_address = ::Spree::Address.new(
         firstname: pluggto_order["payer_name"],
         lastname: pluggto_order["payer_lastname"],
         address1: pluggto_order["payer_address"],
@@ -60,9 +60,9 @@ module SpreePluggto
         zipcode: pluggto_order["payer_zipcode"],
         phone: "(#{pluggto_order['payer_phone_area']}) #{pluggto_order['payer_phone']}",
         state_name: pluggto_order["payer_state"],
-        state: Spree::State.find_by(abbr: pluggto_order["payer_state"]),
+        state: ::Spree::State.find_by(abbr: pluggto_order["payer_state"]),
         alternative_phone: "(#{pluggto_order['payer_phone2_area']}) #{pluggto_order['payer_phone2']}",
-        country: Spree::Country.find_by(iso: "BR")
+        country: ::Spree::Country.find_by(iso: "BR")
       )
 
       # Go to delivery
@@ -75,7 +75,7 @@ module SpreePluggto
       spree_order.payment_state = 'paid'
       pluggto_order["payments"].each do |pluggto_payment|
         spree_order.payments.create(
-          payment_method: Spree::PaymentMethod.find_by(type:"Spree::PaymentMethod::StoreCredit"), # Not ideal - we should define a specific payment method referring to PluggTo
+          payment_method: ::Spree::PaymentMethod.find_by(type:"Spree::PaymentMethod::StoreCredit"), # Not ideal - we should define a specific payment method referring to PluggTo
           installments: pluggto_payment["payment_installments"],
           amount: pluggto_payment["payment_total"],
           state: "completed"

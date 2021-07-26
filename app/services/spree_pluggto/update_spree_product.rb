@@ -6,7 +6,7 @@ module SpreePluggto
 
     def initialize(pluggto_id)
       @pluggto_product = SpreePluggto::Api::Product.find(pluggto_id)
-      @spree_product   = Spree::Product.find_by!(pluggto_id: pluggto_id)
+      @spree_product   = ::Spree::Product.find_by!(pluggto_id: pluggto_id)
     end
 
     def call

@@ -4,7 +4,7 @@ module SpreePluggto
     attr_accessor :spree_product
 
     def initialize(sku)
-      @spree_product = Spree::Product.find_by!(sku: sku)
+      @spree_product = ::Spree::Product.find_by!(sku: sku)
     end
 
     def call
