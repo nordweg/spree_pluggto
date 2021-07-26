@@ -16,6 +16,7 @@ module SpreePluggto
       when 'canceled'
         spree_order.cancel!
       end
+      spree_order.update_with_updater!
     end
 
     def update_payments
