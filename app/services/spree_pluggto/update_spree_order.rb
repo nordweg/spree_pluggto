@@ -15,9 +15,9 @@ module SpreePluggto
         update_payments
       when 'approved'
         update_payments
-        set_as_ready
+        set_as_ready unless order.shipped?
       when 'canceled'
-        spree_order.cancel!
+        spree_order.cancel! unless order.canceled?
       end
     end
 
@@ -36,13 +36,11 @@ module SpreePluggto
     end
 
     def set_as_ready
-      if !spree_order.shipped?
-        spree_order.update(
-          payment_total: spree_order.total,
-          shipment_state: 'ready',
-          payment_state: 'paid'
-        )
-      end
+      spree_order.update(
+        payment_total: spree_order.total,
+        shipment_state: 'ready',
+        payment_state: 'paid'
+      )
     end
 
   end
