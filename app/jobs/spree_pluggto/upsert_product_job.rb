@@ -3,7 +3,7 @@ module SpreePluggto
     # UPSERT => Updates the record if it exists, inserts if it is new
     def perform(product_id)
       product = ::Spree::Product.find(product_id)
-      SpreePluggto::Api::Product.upsert(product)
+      ::SpreePluggto::Api::Product.upsert(product)
     end
   end
 end
