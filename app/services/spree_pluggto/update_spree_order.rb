@@ -11,13 +11,17 @@ module SpreePluggto
 
     def call
       case pluggto_order["status"]
-      when 'partial_payment', 'approved'
+      when 'partial_payment'
         update_payments
+      when 'approved'
+        update_payments
+        set_as_ready
       when 'canceled'
         spree_order.cancel!
       end
-      spree_order.update_with_updater!
     end
+
+    private
 
     def update_payments
       pluggto_order["payments"].each do |pluggto_payment|
@@ -26,6 +30,17 @@ module SpreePluggto
           amount: pluggto_payment["payment_total"],
           installments: pluggto_payment["payment_installments"],
           state: "completed"
+        )
+      end
+      spree_order.update_with_updater!
+    end
+
+    def set_as_ready
+      if !spree_order.shipped?
+        spree_order.update(
+          payment_total: spree_order.total,
+          shipment_state: 'ready',
+          payment_state: 'paid'
         )
       end
     end

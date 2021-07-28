@@ -19,7 +19,7 @@ module SpreePluggto::Api
         {
           "sku": product.sku,
           "name": product.name,
-          "special_price": product.on_sale? ? product.sale_price : nil,
+          "special_price": product.on_sale? ? product.sale_price : product.price,
           "price": product.price,
           "description": product.description,
           "brand": product.brand,
@@ -49,7 +49,7 @@ module SpreePluggto::Api
               "sku": variant.sku,
               "name": variant.name,
               "quantity": variant.total_on_hand.finite? ? variant.total_on_hand : 99,
-              "special_price": variant.product.on_sale? ? variant.product.sale_price : nil,
+              "special_price": variant.product.on_sale? ? variant.product.sale_price : variant.price,
               "price": variant.price,
               "ean_not_mandatory": true,
               "attributes": variant.option_values.map { |option_value|

@@ -71,6 +71,11 @@ module SpreePluggto
       # Go to payment
       spree_order.next!
 
+      # By calling 'next' the first shipping option was selected, we need to set it up according to what we received from Pluggto
+      spree_order.update(
+        shipment_total: pluggto_order["shipping"]
+      )
+
       # Add payments
       spree_order.payment_state = 'paid'
       pluggto_order["payments"].each do |pluggto_payment|
@@ -85,6 +90,7 @@ module SpreePluggto
       # Complete the order
       spree_order.next
       spree_order.update(state: 'complete')
+      spree_order.finalize!
     end
   end
 end
