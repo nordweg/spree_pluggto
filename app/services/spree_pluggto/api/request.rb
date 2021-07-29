@@ -3,7 +3,7 @@ module SpreePluggto::Api
     attr_reader :access_token
 
     def initialize
-      @access_token = SpreePluggto::Api::Oauth.new.get_token
+      @access_token = ::SpreePluggto::Api::Oauth.new.get_token
     end
 
     def get(path, body = {})
