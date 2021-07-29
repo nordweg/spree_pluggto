@@ -5,7 +5,7 @@ module SpreePluggto
     attr_accessor :spree_order
 
     def initialize(pluggto_id)
-      @pluggto_order = SpreePluggto::Api::Order.find(pluggto_id)
+      @pluggto_order = ::SpreePluggto::Api::Order.find(pluggto_id)
       @spree_order   = ::Spree::Order.find_by!(pluggto_id: pluggto_id)
     end
 
@@ -15,9 +15,9 @@ module SpreePluggto
         update_payments
       when 'approved'
         update_payments
-        set_as_ready unless order.shipped?
+        set_as_ready unless spree_order.shipped?
       when 'canceled'
-        spree_order.cancel! unless order.canceled?
+        spree_order.cancel! unless spree_order.canceled?
       end
     end
 
