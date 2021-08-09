@@ -38,6 +38,7 @@ module SpreePluggto::Api
           "total_paid": spree_order.payment_total.to_s,
           "shipping": spree_order.shipment_total,
           "discount": spree_order.adjustment_total,
+          "external": spree_order.number,
 
           "receiver_email": spree_order.email,
           "receiver_name": spree_order.ship_address.firstname,
@@ -68,11 +69,15 @@ module SpreePluggto::Api
 
           "shipments": spree_order.shipments.map { |shipment|
             {
+              # "estimate_delivery_date": "2016-11-05", # TODO
+              # "nfe_key": "44444444444444444444444444444", # TODO
+              # "nfe_date": "2016-11-01", # TODO
+              "track_url": (shipment.tracking_url_with_code if shipment.shipped?),
+              "nfe_link": (shipment.get_invoice_pdf if shipment.shipped?),
+              "external": shipment.number,
               "shipping_company": shipment.shipping_method.name,
               "shipping_method": shipment.shipping_method.name,
               "track_code": shipment.tracking,
-              "track_url": shipment&.tracking_url&.gsub(/{tracking}/, shipment.tracking),
-              "estimate_delivery_date": "2016-11-05",
               "date_shipped": shipment.shipped_at&.to_date,
               "nfe_number": shipment.nf_number&.split("/")&.first,
               "nfe_serie": shipment.nf_number&.split("/")&.last,
@@ -98,7 +103,7 @@ module SpreePluggto::Api
             }
           }
 
-        }
+        }.compact
       end
 
     end

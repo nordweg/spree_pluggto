@@ -1,0 +1,27 @@
+<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: :pluggto_fields } %>
+
+<%= form_for [:admin, @product], method: :put do |f| %>
+
+<fieldset>
+  <div class="row">
+    <div class="col-xs-12 col-md-8" data-hook="admin_product_pluggto_fields">
+        <%= f.field_container :pluggto_name, class: ['form-group'] do %>
+        <%= f.label :pluggto_name, "Nome no Plugg.to" %>
+        <%= f.text_field :pluggto_name, class: 'form-control', placeholder: "Deixe em branco para usar o nome original do produto" %>
+        <%= f.error_message_on :pluggto_name %>
+        <% end %>
+
+        <%= f.field_container :pluggto_id, class: ['form-group'] do %>
+        <%= f.label :pluggto_id, "ID no Pluggto" %>
+        <%= f.text_field :pluggto_id, class: 'form-control', readonly: true %>
+        <%= f.error_message_on :pluggto_id %>
+        <% end %>
+    </div>
+  </div>
+
+
+  <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+
+</fieldset>
+
+<% end %>

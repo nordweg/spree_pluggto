@@ -15,7 +15,7 @@ module Spree
           service_class = "spree_pluggto/#{notification_params[:type].singularize}_#{notification_params[:action]}_job".camelize
           puts "Service: #{service_class}"
           service_class.constantize.perform_later(notification_params[:id])
-          render head: :ok
+          head :ok
         end
 
         private

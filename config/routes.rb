@@ -3,6 +3,9 @@ Spree::Core::Engine.routes.draw do
     resource :pluggto_settings do
       get :upload_all_products
     end
+    resources :products do
+      resources :pluggto_fields, except: [:destroy]
+    end
   end
 
   namespace :api do
