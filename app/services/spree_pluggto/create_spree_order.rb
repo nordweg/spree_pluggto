@@ -13,7 +13,7 @@ module SpreePluggto
       # Create the order on Spree
       spree_order = ::Spree::Order.create(
         channel: "pluggto",
-        pluggto_id: pluggto_id,
+        pluggto_id: pluggto_order["id"],
         user: ::Spree::User.find_by(email: pluggto_order["receiver_email"]),
         email: pluggto_order["receiver_email"],
         cpf: pluggto_order["receiver_cpf"] || pluggto_order["payer_cpf"],
@@ -78,9 +78,18 @@ module SpreePluggto
       spree_order.shipments.first.update_columns(
         cost: pluggto_order["shipping"]
       )
-
+      # Add discount
+      if pluggto_order["discount"].present? && pluggto_order["discount"] > 0
+        spree_order.adjustments.create(
+          order: spree_order,
+          label: "Desconto via Plugg.to",
+          amount: pluggto_order["discount"] * -1,
+          eligible: true
+        )
+      end
+      # Updates the total
+      spree_order.update_totals
       # Add payments
-      spree_order.payment_state = 'paid'
       pluggto_order["payments"].each do |pluggto_payment|
         spree_order.payments.create(
           payment_method: ::Spree::PaymentMethod.find_by(type:"Spree::PaymentMethod::StoreCredit"), # Not ideal - we should define a specific payment method referring to PluggTo
@@ -90,7 +99,7 @@ module SpreePluggto
         )
       end
 
-      # Complete the order
+      # Completes the order
       spree_order.next
       spree_order.update_columns(state: 'complete')
     end
