@@ -76,7 +76,8 @@ module SpreePluggto
         shipment_total: pluggto_order["shipping"]
       )
       spree_order.shipments.first.update_columns(
-        cost: pluggto_order["shipping"]
+        cost: pluggto_order["shipping"],
+        pluggto_id: pluggto_order.dig("shipments", 1, "id")
       )
       # Add discount
       if pluggto_order["discount"].present? && pluggto_order["discount"] > 0
@@ -102,6 +103,12 @@ module SpreePluggto
       # Completes the order
       spree_order.next
       spree_order.update_columns(state: 'complete')
+
+      # The "Pending" on Pluggto is NOT "Paid", even if it has payments
+      # We should force the payments status according to the plugg_order status
+      spree_order.update_columns(
+        payment_state: pluggto_order["status"] == 'approved' ? 'paid' : 'pending'
+      )
     end
   end
 end

@@ -11,13 +11,14 @@ module SpreePluggto
 
     def call
       case pluggto_order["status"]
-      when 'partial_payment'
+      when 'partial_payment', 'pending'
         update_payments
       when 'approved'
         update_payments
         set_as_ready unless spree_order.shipped?
       when 'canceled'
         spree_order.cancel! unless spree_order.canceled?
+        spree_order.update_columns(state: 'canceled')
       end
     end
 

@@ -15,7 +15,7 @@ module SpreePluggto::Api
 
       def pluggto_status(spree_order)
         return 'canceled' if spree_order.canceled?
-        return 'shipped' if spree_order.shipped?
+        return 'shipping_informed' if spree_order.shipped?
         return 'approved' if spree_order.shipment_state == 'ready'
         return 'partial_payment' if spree_order.payment_state == 'credit_owed'
         return 'pending'
@@ -72,6 +72,7 @@ module SpreePluggto::Api
               # "estimate_delivery_date": "2016-11-05", # TODO
               # "nfe_key": "44444444444444444444444444444", # TODO
               # "nfe_date": "2016-11-01", # TODO
+              "id": shipment.pluggto_id,
               "track_url": (shipment.tracking_url_with_code if shipment.shipped?),
               "nfe_link": (shipment.get_invoice_pdf if shipment.shipped?),
               "external": shipment.number,
