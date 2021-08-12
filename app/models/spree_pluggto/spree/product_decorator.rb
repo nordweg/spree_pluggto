@@ -5,8 +5,8 @@ module SpreePluggto
       # https://guides.spreecommerce.org/developer/customization/logic.html
       # self.prepended is needed to access class-level methods, like has_many, scopes and callbacks
       def self.prepended(base)
-        base.after_create :upsert_pluggto_product
-        base.after_update :upsert_pluggto_product
+        base.after_create :upsert_pluggto_product, if: :sync_with_pluggto?
+        base.after_update :upsert_pluggto_product, if: :sync_with_pluggto?
       end
 
       private
