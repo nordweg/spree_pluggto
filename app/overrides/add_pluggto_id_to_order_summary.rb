@@ -4,7 +4,7 @@ Deface::Override.new(
   insert_bottom: '[id="order_tab_summary"]'
 ) do
   <<-HTML
-  <% if order.pluggto_id %>
+  <% if @order.pluggto_id %>
   <tr>
     <td><strong>Plugg.to id</strong></td>
     <td><%= @order.pluggto_id %></td>
