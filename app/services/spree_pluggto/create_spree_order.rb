@@ -9,10 +9,10 @@ module SpreePluggto
 
     def call
       # Skip creation if the order was already created on Spree
-      return if Spree::Order.find_by(pluggto_id: pluggto_id)
+      return if ::Spree::Order.find_by(pluggto_id: pluggto_id)
 
       # Get info Plugg
-      pluggto_order = SpreePluggto::Api::Order.find(pluggto_id)
+      pluggto_order = ::SpreePluggto::Api::Order.find(pluggto_id)
 
       # Create the order on Spree
       spree_order = ::Spree::Order.create(
