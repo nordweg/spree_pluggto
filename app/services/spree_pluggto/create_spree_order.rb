@@ -8,6 +8,10 @@ module SpreePluggto
     end
 
     def call
+      # Skip creation if the order was already created on Spree
+      return if Spree::Order.find_by(pluggto_id: pluggto_id)
+
+      # Get info Plugg
       pluggto_order = SpreePluggto::Api::Order.find(pluggto_id)
 
       # Create the order on Spree
@@ -71,7 +75,8 @@ module SpreePluggto
       # Go to payment
       spree_order.next!
 
-      # By calling 'next' the first shipping option was selected, we need to set it up according to what we received from Pluggto
+      # By calling 'next' the first shipping option was selected,
+      # we need to set it up according to what we received from Pluggto
       spree_order.update_columns(
         shipment_total: pluggto_order["shipping"]
       )
@@ -79,7 +84,8 @@ module SpreePluggto
         cost: pluggto_order["shipping"],
         pluggto_id: pluggto_order.dig("shipments", 1, "id")
       )
-      # Add discount
+
+      # Add discounts
       if pluggto_order["discount"].present? && pluggto_order["discount"] > 0
         spree_order.adjustments.create(
           order: spree_order,
@@ -88,8 +94,10 @@ module SpreePluggto
           eligible: true
         )
       end
-      # Updates the total
+
+      # Update the total after discounts
       spree_order.update_totals
+
       # Add payments
       pluggto_order["payments"].each do |pluggto_payment|
         spree_order.payments.create(
