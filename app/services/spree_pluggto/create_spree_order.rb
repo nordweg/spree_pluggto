@@ -77,12 +77,12 @@ module SpreePluggto
 
       # By calling 'next' the first shipping option was selected,
       # we need to set it up according to what we received from Pluggto
-      spree_order.update_columns(
-        shipment_total: pluggto_order["shipping"]
-      )
       spree_order.shipments.first.update_columns(
         cost: pluggto_order["shipping"],
-        pluggto_id: pluggto_order.dig("shipments", 1, "id")
+        pluggto_id: pluggto_order.dig("shipments",0,"id")
+      )
+      spree_order.update_columns(
+        shipment_total: pluggto_order["shipping"]
       )
 
       # Add discounts
