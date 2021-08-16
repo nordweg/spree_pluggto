@@ -108,6 +108,8 @@ module SpreePluggto
         )
       end
 
+      spree_order.update_with_updater!
+
       # Completes the order
       # The "Pending" on Pluggto is NOT "Paid", even if it has payments
       # We should force the payments status according to the plugg_order status
