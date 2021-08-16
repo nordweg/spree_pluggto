@@ -37,7 +37,7 @@ module SpreePluggto
     end
 
     def set_as_ready
-      spree_order.update(
+      spree_order.update_columns(
         payment_total: spree_order.total,
         shipment_state: 'ready',
         payment_state: 'paid'
