@@ -69,10 +69,10 @@ module SpreePluggto::Api
 
           "shipments": spree_order.shipments.map { |shipment|
             {
-              # "estimate_delivery_date": "2016-11-05", # TODO
-              # "nfe_key": "44444444444444444444444444444", # TODO
-              # "nfe_date": "2016-11-01", # TODO
               "id": shipment.pluggto_id,
+              "estimate_delivery_date": (shipment.expected_delivery_date if shipment.shipped?),
+              "nfe_date": (shipment.shipped_at.to_date if shipment.shipped?),
+              "nfe_key": (shipment.get_invoice_key if shipment.shipped?),
               "track_url": (shipment.tracking_url_with_code if shipment.shipped?),
               "nfe_link": (shipment.get_invoice_pdf if shipment.shipped?),
               "external": shipment.number,

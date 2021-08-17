@@ -111,12 +111,12 @@ module SpreePluggto
       # Completes the order
       # The "Pending" on Pluggto is NOT "Paid", even if it has payments
       # We should force the payments status according to the plugg_order status
+      spree_order.update_with_updater!
       spree_order.update_columns(
         state: 'complete',
         completed_at: DateTime.now,
         payment_state: pluggto_order["status"] == 'approved' ? 'paid' : 'balance_due'
       )
-      spree_order.update_with_updater! if spree_order.paid?
     end
   end
 end
