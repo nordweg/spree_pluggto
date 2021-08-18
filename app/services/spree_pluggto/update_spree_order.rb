@@ -16,8 +16,10 @@ module SpreePluggto
       when 'approved'
         update_payments
         set_as_paid
-        spree_order.fulfill!
-        set_as_ready unless spree_order.shipped?
+        if !spree_order.shipped?
+          set_as_ready
+          spree_order.fulfill!
+        end
       when 'canceled'
         spree_order.update_columns(state: 'canceled')
       end
