@@ -11,12 +11,9 @@ module SpreePluggto
     # https://github.com/mperham/sidekiq/issues/4496#issuecomment-600714253
     # https://stackoverflow.com/questions/29085458/how-to-access-perform-parameters-in-activejob-rescue
     rescue_from(StandardError) do |exception|
-      puts "--- ARGUMENTS HERE ---"
-      puts arguments
-      puts "exception"
+      puts "--- Problem creating plugg_to order #{arguments} ---"
       puts exception
-      pluggto_id = arguments[0]
-      ::SpreePluggto::SendIntegrationErrors.new(pluggto_id).call(exception)
+      ::SpreePluggto::SendIntegrationErrors.new(arguments).call(exception)
     end
 
     def perform(pluggto_id)
