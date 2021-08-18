@@ -26,7 +26,7 @@ module SpreePluggto
       # Add line items
       pluggto_order["items"].each do |pluggto_item|
         spree_order.line_items.new(
-          variant: ::Spree::Variant.find_by(sku: pluggto_item["sku"]),
+          variant: ::Spree::Variant.find_by!(sku: pluggto_item["sku"]),
           quantity: pluggto_item["quantity"],
           price: pluggto_item["price"]
         )

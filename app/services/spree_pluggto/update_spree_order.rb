@@ -11,7 +11,7 @@ module SpreePluggto
 
     def call
       case pluggto_order["status"]
-      when 'partial_payment', 'pending'
+      when 'pending'
         update_payments
       when 'approved'
         update_payments
@@ -33,6 +33,9 @@ module SpreePluggto
         )
       end
       spree_order.update_with_updater!
+      spree_order.update_columns(
+        payment_state: pluggto_order["status"] == 'approved' ? 'paid' : 'balance_due'
+      )
     end
 
     def set_as_ready
