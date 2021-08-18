@@ -13,7 +13,7 @@ module SpreePluggto
     rescue_from(StandardError) do |exception|
       puts "--- Problem creating plugg_to order #{arguments} ---"
       puts exception
-      ::SpreePluggto::SendIntegrationErrors.new(arguments).call(exception)
+      ::SpreePluggto::SendIntegrationErrors.new(arguments.first).call(exception)
     end
 
     def perform(pluggto_id)
