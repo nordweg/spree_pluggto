@@ -16,13 +16,13 @@ module SpreePluggto::Api
       private
 
       def params(product)
-        info_text = "MAIS INFORMAÇÕES\n" + ActionView::Base.full_sanitizer.sanitize(product.info).gsub(/\r/, "").squeeze.rstrip.delete_prefix("\n")
+        description = ::ActionView::Helpers::TextHelper.simple_format(product.description) + "<br/><u>MAIS INFORMAÇÕES:</u><br/>".html_safe + product.info.html_safe
         {
           "sku": product.sku,
-          "name": product.name,
+          "name": product.pluggto_name.present? ? product.pluggto_name : product.name,
           "special_price": product.on_sale? ? product.sale_price : product.price,
           "price": product.price,
-          "description": product.description + info_text,
+          "description": description,
           "brand": "Nordweg",
           "warranty_time": product.try(:months_of_warranty),
           "warranty_message": product.lifetime_warranty? ? "Garantia vitalícia" : "",
