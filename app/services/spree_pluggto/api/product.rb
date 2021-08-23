@@ -1,7 +1,6 @@
 module SpreePluggto::Api
   class Product
     class << self
-
       def find(pluggto_id)
         response = ::SpreePluggto::Api::Request.new.get("/products/#{pluggto_id}")
         response["Product"]
@@ -16,8 +15,7 @@ module SpreePluggto::Api
       private
 
       def params(product)
-        include ::ActionView::Helpers::TextHelper
-        description = simple_format(product.description) + "<br/><u>MAIS INFORMAÇÕES:</u><br/>".html_safe + product.info.html_safe
+        description = ::ActionController::Base.helpers.simple_format(product.description) + "<br/><u>MAIS INFORMAÇÕES:</u><br/>".html_safe + product.info.html_safe
         {
           "sku": product.sku,
           "name": product.pluggto_name.present? ? product.pluggto_name : product.name,
