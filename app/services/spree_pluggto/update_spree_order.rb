@@ -21,7 +21,7 @@ module SpreePluggto
           spree_order.fulfill!
         end
       when 'canceled'
-        spree_order.update_columns(state: 'canceled')
+        spree_order.update_columns(state: 'canceled', shipment_state: 'canceled', payment_state: 'void')
       end
     end
 
