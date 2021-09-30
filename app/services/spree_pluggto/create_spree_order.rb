@@ -17,6 +17,7 @@ module SpreePluggto
       # Create the order on Spree
       spree_order = ::Spree::Order.create(
         channel: "pluggto",
+        external_channel: pluggto_order["channel"],
         pluggto_id: pluggto_order["id"],
         user: ::Spree::User.find_by(email: pluggto_order["receiver_email"]),
         email: pluggto_order["receiver_email"],
@@ -114,6 +115,7 @@ module SpreePluggto
       spree_order.update_columns(
         state: 'complete',
         completed_at: DateTime.now,
+        payment_confirmed_at: DateTime.now,
         payment_state: pluggto_order["status"] == 'approved' ? 'paid' : 'balance_due'
       )
       spree_order.fulfill! if spree_order.paid?

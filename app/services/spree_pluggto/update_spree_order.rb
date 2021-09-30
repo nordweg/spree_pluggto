@@ -43,7 +43,7 @@ module SpreePluggto
     end
 
     def set_as_paid
-      spree_order.update_columns(payment_state: 'paid')
+      spree_order.update_columns(payment_state: 'paid', payment_confirmed_at: DateTime.now)
     end
 
   end
